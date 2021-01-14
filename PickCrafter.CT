@@ -3,7 +3,7 @@
   <CheatEntries>
     <CheatEntry>
       <ID>57</ID>
-      <Description>"5.7.02"</Description>
+      <Description>"5.7.04"</Description>
       <Options moHideChildren="1"/>
       <LastState Value="" Activated="1" RealAddress="00000000"/>
       <GroupHeader>1</GroupHeader>
@@ -11,7 +11,7 @@
         <CheatEntry>
           <ID>49</ID>
           <Description>"Pickaxe Zero Cooldown"</Description>
-          <LastState Activated="1"/>
+          <LastState/>
           <VariableType>Auto Assembler Script</VariableType>
           <AssemblerScript>[ENABLE]
 define(PickPwr,PickaxePowerController:UpdateCoolDownEvent+16)
@@ -173,6 +173,11 @@ dealloc(newmem)
 //    Double-click the Value field on the record to edit the value and set
 //      it to a high value like 25000000
 //
+//  STEP 3: Disable validation
+//    Go back over to the Memory Viewer
+//    Right-click on the "test eax,eax" line (GetCount+34)
+//    Click "Replace with code that does nothing"
+//
 //  STEP 3: Activate the final currency cheat script
 //    Now that you have a large number of the currency locked in, you need
 //      to toggle the "ACTIVATE" record. This will allow you to now use the
@@ -200,15 +205,15 @@ dealloc(newmem)
                   <ID>64</ID>
                   <Description>"SET Value"</Description>
                   <Options moDeactivateChildrenAsWell="1"/>
-                  <LastState Value="42000000" Activated="1" RealAddress="0618EDF8"/>
+                  <LastState Value="1234567" Activated="1" RealAddress="05DCEE28"/>
                   <ShowAsSigned>0</ShowAsSigned>
                   <VariableType>4 Bytes</VariableType>
-                  <Address>0618EDF8</Address>
+                  <Address>05DCEE28</Address>
                   <CheatEntries>
                     <CheatEntry>
                       <ID>59</ID>
                       <Description>"ACTIVATE"</Description>
-                      <LastState/>
+                      <LastState Activated="1"/>
                       <VariableType>Auto Assembler Script</VariableType>
                       <AssemblerScript>{$lua}
 LaunchMonoDataCollector()
@@ -241,14 +246,14 @@ dealloc(newmem)
               <ID>72</ID>
               <Description>"Ender Pearls"</Description>
               <Options moHideChildren="1" moDeactivateChildrenAsWell="1"/>
-              <LastState Value="" Activated="1" RealAddress="00000000"/>
+              <LastState Value="" RealAddress="00000000"/>
               <GroupHeader>1</GroupHeader>
               <CheatEntries>
                 <CheatEntry>
                   <ID>67</ID>
                   <Description>"SET Value"</Description>
                   <Options moHideChildren="1" moDeactivateChildrenAsWell="1"/>
-                  <LastState Value="42000000" Activated="1" RealAddress="0618EE10"/>
+                  <LastState Value="1967218548" RealAddress="0618EE10"/>
                   <ShowAsSigned>0</ShowAsSigned>
                   <VariableType>4 Bytes</VariableType>
                   <Address>0618EE10</Address>
@@ -256,7 +261,7 @@ dealloc(newmem)
                     <CheatEntry>
                       <ID>60</ID>
                       <Description>"ACTIVATE"</Description>
-                      <LastState Activated="1"/>
+                      <LastState/>
                       <VariableType>Auto Assembler Script</VariableType>
                       <AssemblerScript>{$lua}
 LaunchMonoDataCollector()
@@ -287,14 +292,14 @@ dealloc(newmem)
               <ID>73</ID>
               <Description>"Runic Dust"</Description>
               <Options moHideChildren="1" moDeactivateChildrenAsWell="1"/>
-              <LastState Value="" Activated="1" RealAddress="00000000"/>
+              <LastState Value="" RealAddress="00000000"/>
               <GroupHeader>1</GroupHeader>
               <CheatEntries>
                 <CheatEntry>
                   <ID>65</ID>
                   <Description>"SET Value"</Description>
                   <Options moHideChildren="1" moDeactivateChildrenAsWell="1"/>
-                  <LastState Value="42000000" Activated="1" RealAddress="0618EE28"/>
+                  <LastState Value="1632003436" RealAddress="0618EE28"/>
                   <ShowAsSigned>0</ShowAsSigned>
                   <VariableType>4 Bytes</VariableType>
                   <Address>0618EE28</Address>
@@ -302,7 +307,7 @@ dealloc(newmem)
                     <CheatEntry>
                       <ID>68</ID>
                       <Description>"ACTIVATE"</Description>
-                      <LastState Activated="1"/>
+                      <LastState/>
                       <VariableType>Auto Assembler Script</VariableType>
                       <AssemblerScript>{$lua}
 LaunchMonoDataCollector()
@@ -337,7 +342,7 @@ dealloc(newmem)
           <ID>82</ID>
           <Description>"***OTHER***"</Description>
           <Options moHideChildren="1"/>
-          <LastState Value="" Activated="1" RealAddress="00000000"/>
+          <LastState Value="" RealAddress="00000000"/>
           <GroupHeader>1</GroupHeader>
           <CheatEntries>
             <CheatEntry>
@@ -576,6 +581,28 @@ dealloc(newmem)
         <Byte>D6</Byte>
       </After>
     </CodeEntry>
+    <CodeEntry Color="80000008">
+      <Description>Change of test eax,eax</Description>
+      <AddressString>20D59C74</AddressString>
+      <Before>
+        <Byte>5D</Byte>
+        <Byte>E5</Byte>
+        <Byte>83</Byte>
+        <Byte>C4</Byte>
+        <Byte>10</Byte>
+      </Before>
+      <Actual>
+        <Byte>85</Byte>
+        <Byte>C0</Byte>
+      </Actual>
+      <After>
+        <Byte>74</Byte>
+        <Byte>0B</Byte>
+        <Byte>8B</Byte>
+        <Byte>05</Byte>
+        <Byte>28</Byte>
+      </After>
+    </CodeEntry>
   </CheatCodes>
   <UserdefinedSymbols>
     <SymbolEntry>
@@ -584,7 +611,7 @@ dealloc(newmem)
     </SymbolEntry>
     <SymbolEntry>
       <Name>BlockAmount</Name>
-      <Address>015D0030</Address>
+      <Address>01240000</Address>
     </SymbolEntry>
     <SymbolEntry>
       <Name>ArtLvl</Name>
@@ -608,7 +635,7 @@ dealloc(newmem)
     </SymbolEntry>
     <SymbolEntry>
       <Name>AD_Add</Name>
-      <Address>015D0000</Address>
+      <Address>01240010</Address>
     </SymbolEntry>
     <SymbolEntry>
       <Name>PinkDustAdd</Name>
