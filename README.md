@@ -1,6 +1,6 @@
 # CheatEngine_PickCrafter
 
-***Updated to 5.7.02***
+***Updated for 5.7.04***
 
 I take no credit for the original work done here - just wanted to play around with getting this working and bump this up to the latest ;)
 
@@ -8,3 +8,7 @@ I take no credit for the original work done here - just wanted to play around wi
 NOTEWORTHY CHANGES:
 - 'block drops' set to +250 for less annoying (prestige) power leveling
 - Currencies are working but are not one-click activation (read the \<script\> in that record for details)
+
+### TROUBLESHOOTING:
+Can't find the correct memory block?
+- See [Issue #1](https://github.com/TheRedBull/CheatEngine_PickCrafter/issues/1)
