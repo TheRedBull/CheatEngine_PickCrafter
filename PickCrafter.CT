@@ -1,0 +1,640 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheatTable CheatEngineTableVersion="34">
+  <CheatEntries>
+    <CheatEntry>
+      <ID>57</ID>
+      <Description>"5.7.02"</Description>
+      <Options moHideChildren="1"/>
+      <LastState Value="" Activated="1" RealAddress="00000000"/>
+      <GroupHeader>1</GroupHeader>
+      <CheatEntries>
+        <CheatEntry>
+          <ID>49</ID>
+          <Description>"Pickaxe Zero Cooldown"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[ENABLE]
+define(PickPwr,PickaxePowerController:UpdateCoolDownEvent+16)
+alloc(newmem,$1000)
+label(code)
+label(return)
+registersymbol(PickPwr)
+
+newmem:
+  code:
+    fstp dword ptr [eax]
+    mov [eax],(float)0
+    jmp return
+
+PickPwr:
+  jmp newmem
+  nop
+  nop
+
+return:
+
+[DISABLE]
+PickPwr:
+  db D9 18 B8 B8 3E 9E 08
+  unregistersymbol(PickPwr)
+  dealloc(newmem)
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>53</ID>
+          <Description>"Ability Zero Cooldown"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{$lua}
+LaunchMonoDataCollector()
+{$asm}
+define(AbilityTimer,Ability:UpdateCoolDownEvent+1f)
+define(bytes,0F 85 70 00 00 00)
+[ENABLE]
+assert(AbilityTimer,bytes)
+
+AbilityTimer:
+db 90 90 90 90 90 90
+
+[DISABLE]
+AbilityTimer:
+db 0F 85 70 00 00 00
+unregistersymbol(AbilityTimer)
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>50</ID>
+          <Description>"Block Drops, Crafting, Mobs (+250)"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[ENABLE]
+define(Blocks,GameData:AddBlockToInventory+84)
+alloc(newmem,$1000)
+globalalloc(BlockAmount,4)
+label(code)
+label(return)
+registersymbol(Blocks)
+
+BlockAmount:
+db FA
+
+newmem:
+code:
+add ecx,[BlockAmount]
+lea eax,[ebp-44]
+jmp return
+
+Blocks:
+jmp newmem
+return:
+[DISABLE]
+Blocks:
+db 03 CB 8D 45 BC
+unregistersymbol(Blocks)
+dealloc(newmem)
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>51</ID>
+          <Description>"Free Gear and Pickaxes (no blocked needed)"</Description>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>{$lua}
+LaunchMonoDataCollector()
+{$asm}
+define(BuyBypass,GameData:AttemptToSpendCurrency+87)
+define(bytes,8B 46 10 3B D8)
+[ENABLE]
+assert(BuyBypass,bytes)
+alloc(newmem,$1000)
+label(code)
+label(return)
+registersymbol(BuyBypass)
+
+newmem:
+code:
+mov eax,0
+cmp ebx,eax
+jmp return
+
+BuyBypass:
+jmp newmem
+
+return:
+[DISABLE]
+BuyBypass:
+db 8B 46 10 3B D8
+unregistersymbol(BuyBypass)
+dealloc(newmem)
+</AssemblerScript>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>71</ID>
+          <Description>"Currency (READ SCRIPT FIRST!)"</Description>
+          <Options moHideChildren="1" moDeactivateChildrenAsWell="1"/>
+          <LastState Activated="1"/>
+          <VariableType>Auto Assembler Script</VariableType>
+          <AssemblerScript>[ENABLE]
+//  So far, in 5.7.02, I have been unable to write a proper script to find the
+//    location of the address PickCrafter is using for premium currency.
+//
+//  This will walk you through the steps to find these manually and then
+//    you can hack these currencies.
+//
+//  USE AT YOUR OWN RISK! I TAKE NO RESPONSIBILITY FOR ANY ACTION(S) AGAINST
+//  YOU, YOUR ACCOUNT, OR ANYTHING ELSE FOR USING THIS METHOD
+
+//Instructions:
+//
+//  STEP 1: Finding the address(es)
+//    Open the game process &gt; Dissect mono (Ctrl+Alt+M)
+//    Expand the top level &gt; Assembly-CSharp
+//    Expand the desired currency:
+//               ArtifactDust
+//               EnderPearls
+//               RunicDust
+//
+//    Expand methods
+//    Click the method called GetCount &gt; Right-click the same &gt; Jit
+//    Find the line with the address for the currency:
+//               ArtifactDust  =  ArtifactDust.GetCount+34
+//               EnderPearls   =  EnderPearls:GetCount+34
+//               RunicDust     =  RunicDust:GetCount+34
+//
+//        Each of these are shortly followed by a line with something like
+//          this in the "Opcode" column: mov eax,[00C2D8DA]
+//        The address in the square brackets is what we're after
+//    Copy the address!
+//
+//  STEP 2: Setting the address value(s)
+//    Back in the main CE window, modify the addrsss in the "SET Value" record
+//    Toggle the record so the red X is shown (this locks the value while you
+//      finish the process
+//    Double-click the Value field on the record to edit the value and set
+//      it to a high value like 25000000
+//
+//  STEP 3: Activate the final currency cheat script
+//    Now that you have a large number of the currency locked in, you need
+//      to toggle the "ACTIVATE" record. This will allow you to now use the
+//      currency you locked in with the previous step
+//
+//
+//  That's it... it's a process but until I figure out how to either
+//    script out the first two steps or append a value to the mov eax,[]
+//    code this will do ;)
+//
+//  Good luck and happy picking!
+
+
+[DISABLE]
+</AssemblerScript>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>70</ID>
+              <Description>"Artifact Dust"</Description>
+              <Options moHideChildren="1" moDeactivateChildrenAsWell="1"/>
+              <LastState Value="" Activated="1" RealAddress="00000000"/>
+              <GroupHeader>1</GroupHeader>
+              <CheatEntries>
+                <CheatEntry>
+                  <ID>64</ID>
+                  <Description>"SET Value"</Description>
+                  <Options moDeactivateChildrenAsWell="1"/>
+                  <LastState Value="42000000" Activated="1" RealAddress="0618EDF8"/>
+                  <ShowAsSigned>0</ShowAsSigned>
+                  <VariableType>4 Bytes</VariableType>
+                  <Address>0618EDF8</Address>
+                  <CheatEntries>
+                    <CheatEntry>
+                      <ID>59</ID>
+                      <Description>"ACTIVATE"</Description>
+                      <LastState/>
+                      <VariableType>Auto Assembler Script</VariableType>
+                      <AssemblerScript>{$lua}
+LaunchMonoDataCollector()
+{$asm}
+
+define(address,ArtifactDust:GetCount+34)
+define(bytes,85 C0 74 0B)
+
+[ENABLE]
+assert(address,bytes)
+globalalloc(AD_Add,4)
+
+AD_Add:
+readmem(address+6,4)
+
+address:
+db 90 90 90 90
+
+[DISABLE]
+address:
+db bytes
+dealloc(newmem)
+</AssemblerScript>
+                    </CheatEntry>
+                  </CheatEntries>
+                </CheatEntry>
+              </CheatEntries>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>72</ID>
+              <Description>"Ender Pearls"</Description>
+              <Options moHideChildren="1" moDeactivateChildrenAsWell="1"/>
+              <LastState Value="" Activated="1" RealAddress="00000000"/>
+              <GroupHeader>1</GroupHeader>
+              <CheatEntries>
+                <CheatEntry>
+                  <ID>67</ID>
+                  <Description>"SET Value"</Description>
+                  <Options moHideChildren="1" moDeactivateChildrenAsWell="1"/>
+                  <LastState Value="42000000" Activated="1" RealAddress="0618EE10"/>
+                  <ShowAsSigned>0</ShowAsSigned>
+                  <VariableType>4 Bytes</VariableType>
+                  <Address>0618EE10</Address>
+                  <CheatEntries>
+                    <CheatEntry>
+                      <ID>60</ID>
+                      <Description>"ACTIVATE"</Description>
+                      <LastState Activated="1"/>
+                      <VariableType>Auto Assembler Script</VariableType>
+                      <AssemblerScript>{$lua}
+LaunchMonoDataCollector()
+{$asm}
+define(address,EnderPearls:GetCount+34)
+define(bytes,85 C0 74 0B)
+[ENABLE]
+assert(address,bytes)
+globalalloc(EP_Add,4)
+
+EP_Add:
+readmem(address+6,4)
+
+address:
+db 90 90 90 90
+
+[DISABLE]
+address:
+db bytes
+dealloc(newmem)
+</AssemblerScript>
+                    </CheatEntry>
+                  </CheatEntries>
+                </CheatEntry>
+              </CheatEntries>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>73</ID>
+              <Description>"Runic Dust"</Description>
+              <Options moHideChildren="1" moDeactivateChildrenAsWell="1"/>
+              <LastState Value="" Activated="1" RealAddress="00000000"/>
+              <GroupHeader>1</GroupHeader>
+              <CheatEntries>
+                <CheatEntry>
+                  <ID>65</ID>
+                  <Description>"SET Value"</Description>
+                  <Options moHideChildren="1" moDeactivateChildrenAsWell="1"/>
+                  <LastState Value="42000000" Activated="1" RealAddress="0618EE28"/>
+                  <ShowAsSigned>0</ShowAsSigned>
+                  <VariableType>4 Bytes</VariableType>
+                  <Address>0618EE28</Address>
+                  <CheatEntries>
+                    <CheatEntry>
+                      <ID>68</ID>
+                      <Description>"ACTIVATE"</Description>
+                      <LastState Activated="1"/>
+                      <VariableType>Auto Assembler Script</VariableType>
+                      <AssemblerScript>{$lua}
+LaunchMonoDataCollector()
+{$asm}
+define(address,RunicDust:GetCount+34)
+define(bytes,85 C0 74 0B)
+
+[ENABLE]
+assert(address,bytes)
+globalalloc(RunicAdd,4)
+
+RunicAdd:
+readmem(address+6,4)
+
+address:
+db 90 90 90 90
+
+
+[DISABLE]
+address:
+db bytes
+dealloc(newmem)
+</AssemblerScript>
+                    </CheatEntry>
+                  </CheatEntries>
+                </CheatEntry>
+              </CheatEntries>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+        <CheatEntry>
+          <ID>82</ID>
+          <Description>"***OTHER***"</Description>
+          <Options moHideChildren="1"/>
+          <LastState Value="" Activated="1" RealAddress="00000000"/>
+          <GroupHeader>1</GroupHeader>
+          <CheatEntries>
+            <CheatEntry>
+              <ID>75</ID>
+              <Description>"OLD scripts that are Not Working"</Description>
+              <LastState/>
+              <VariableType>Auto Assembler Script</VariableType>
+              <AssemblerScript>[ENABLE]
+//  Leaving non-working features from the original version in here to be
+//    reviewed/fixed later
+
+
+[DISABLE]
+</AssemblerScript>
+              <CheatEntries>
+                <CheatEntry>
+                  <ID>54</ID>
+                  <Description>"Instant Chest Timer"</Description>
+                  <LastState/>
+                  <VariableType>Auto Assembler Script</VariableType>
+                  <AssemblerScript>//  ***Ccommented out this script so you don't accidently enable it ...JIC***
+
+//{$lua}
+//LaunchMonoDataCollector()
+//{$asm}
+
+[ENABLE]
+//define(ChestTime,ChestData:StartChestTimer+1f)
+//alloc(newmem,$1000)
+//label(code)
+//label(return)
+//registersymbol(ChestTime)
+//
+//newmem:
+//code:
+//add esp,10
+//mov eax,0
+//jmp return
+//
+//ChestTime:
+//jmp newmem
+//nop
+//
+//return:
+
+[DISABLE]
+//ChestTime:
+//db 83 C4 10 85 C0 75
+//unregistersymbol(ChestTime)
+//dealloc(newmem)
+</AssemblerScript>
+                </CheatEntry>
+              </CheatEntries>
+            </CheatEntry>
+            <CheatEntry>
+              <ID>76</ID>
+              <Description>"Additional Features, Nice to Have, TODO (NOT IMPLEMENTED)"</Description>
+              <LastState Value="" RealAddress="00000000"/>
+              <GroupHeader>1</GroupHeader>
+              <CheatEntries>
+                <CheatEntry>
+                  <ID>83</ID>
+                  <Description>"Free Pickaxe UPGRADES"</Description>
+                  <LastState Value="" RealAddress="00000000"/>
+                  <GroupHeader>1</GroupHeader>
+                </CheatEntry>
+                <CheatEntry>
+                  <ID>78</ID>
+                  <Description>"Skill Points"</Description>
+                  <LastState Value="" RealAddress="00000000"/>
+                  <GroupHeader>1</GroupHeader>
+                </CheatEntry>
+                <CheatEntry>
+                  <ID>79</ID>
+                  <Description>"Mythical Blocks"</Description>
+                  <LastState Value="" RealAddress="00000000"/>
+                  <GroupHeader>1</GroupHeader>
+                </CheatEntry>
+                <CheatEntry>
+                  <ID>80</ID>
+                  <Description>"Boss Summon Zero Cooldown"</Description>
+                  <LastState Value="" RealAddress="00000000"/>
+                  <GroupHeader>1</GroupHeader>
+                </CheatEntry>
+                <CheatEntry>
+                  <ID>81</ID>
+                  <Description>"One-click Currency"</Description>
+                  <LastState Value="" RealAddress="00000000"/>
+                  <GroupHeader>1</GroupHeader>
+                </CheatEntry>
+                <CheatEntry>
+                  <ID>84</ID>
+                  <Description>"Free Boss Store Gear"</Description>
+                  <LastState Value="" RealAddress="00000000"/>
+                  <GroupHeader>1</GroupHeader>
+                </CheatEntry>
+              </CheatEntries>
+            </CheatEntry>
+          </CheatEntries>
+        </CheatEntry>
+      </CheatEntries>
+    </CheatEntry>
+  </CheatEntries>
+  <CheatCodes>
+    <CodeEntry Color="20000000">
+      <Description>Change of cmp eax,ecx</Description>
+      <AddressString>20BAFACE</AddressString>
+      <Before>
+        <Byte>C4</Byte>
+        <Byte>10</Byte>
+        <Byte>8D</Byte>
+        <Byte>4E</Byte>
+        <Byte>FF</Byte>
+      </Before>
+      <Actual>
+        <Byte>3B</Byte>
+        <Byte>C1</Byte>
+      </Actual>
+      <After>
+        <Byte>7E</Byte>
+        <Byte>32</Byte>
+        <Byte>8B</Byte>
+        <Byte>45</Byte>
+        <Byte>08</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry Color="20000000">
+      <Description>Change of jle PickaxeLevelMaterialHelper:CheckPickaxeLevel+74</Description>
+      <AddressString>20BAFAD0</AddressString>
+      <Before>
+        <Byte>8D</Byte>
+        <Byte>4E</Byte>
+        <Byte>FF</Byte>
+        <Byte>3B</Byte>
+        <Byte>C1</Byte>
+      </Before>
+      <Actual>
+        <Byte>7E</Byte>
+        <Byte>32</Byte>
+      </Actual>
+      <After>
+        <Byte>8B</Byte>
+        <Byte>45</Byte>
+        <Byte>08</Byte>
+        <Byte>8B</Byte>
+        <Byte>48</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry Color="20000000">
+      <Description>Change of cmp dword ptr [ebp+08],00</Description>
+      <AddressString>20BB2686</AddressString>
+      <Before>
+        <Byte>8B</Byte>
+        <Byte>EC</Byte>
+        <Byte>83</Byte>
+        <Byte>EC</Byte>
+        <Byte>08</Byte>
+      </Before>
+      <Actual>
+        <Byte>83</Byte>
+        <Byte>7D</Byte>
+        <Byte>08</Byte>
+        <Byte>00</Byte>
+      </Actual>
+      <After>
+        <Byte>0F</Byte>
+        <Byte>84</Byte>
+        <Byte>47</Byte>
+        <Byte>00</Byte>
+        <Byte>00</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry Color="20000000">
+      <Description>Change of test eax,eax</Description>
+      <AddressString>20B0CF5B</AddressString>
+      <Before>
+        <Byte>94</Byte>
+        <Byte>C0</Byte>
+        <Byte>0F</Byte>
+        <Byte>B6</Byte>
+        <Byte>C0</Byte>
+      </Before>
+      <Actual>
+        <Byte>85</Byte>
+        <Byte>C0</Byte>
+      </Actual>
+      <After>
+        <Byte>74</Byte>
+        <Byte>07</Byte>
+        <Byte>33</Byte>
+        <Byte>C0</Byte>
+        <Byte>E9</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry Color="20000000">
+      <Description>Change of test eax,eax</Description>
+      <AddressString>1F7501C5</AddressString>
+      <Before>
+        <Byte>05</Byte>
+        <Byte>E8</Byte>
+        <Byte>FD</Byte>
+        <Byte>D6</Byte>
+        <Byte>16</Byte>
+      </Before>
+      <Actual>
+        <Byte>85</Byte>
+        <Byte>C0</Byte>
+      </Actual>
+      <After>
+        <Byte>74</Byte>
+        <Byte>13</Byte>
+        <Byte>8B</Byte>
+        <Byte>05</Byte>
+        <Byte>E8</Byte>
+      </After>
+    </CodeEntry>
+    <CodeEntry Color="20000000">
+      <Description>Change of je BossControllerNew:OnTimerEvent+54</Description>
+      <AddressString>1F7501C7</AddressString>
+      <Before>
+        <Byte>FD</Byte>
+        <Byte>D6</Byte>
+        <Byte>16</Byte>
+        <Byte>85</Byte>
+        <Byte>C0</Byte>
+      </Before>
+      <Actual>
+        <Byte>74</Byte>
+        <Byte>13</Byte>
+      </Actual>
+      <After>
+        <Byte>8B</Byte>
+        <Byte>05</Byte>
+        <Byte>E8</Byte>
+        <Byte>FD</Byte>
+        <Byte>D6</Byte>
+      </After>
+    </CodeEntry>
+  </CheatCodes>
+  <UserdefinedSymbols>
+    <SymbolEntry>
+      <Name>ArtLvlUp</Name>
+      <Address>0CA40010</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>BlockAmount</Name>
+      <Address>015D0030</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>ArtLvl</Name>
+      <Address>07EC0010</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>ArtLvlUpg</Name>
+      <Address>0C860020</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>ArtLvlTrsh</Name>
+      <Address>0CA40020</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>RunicAdd</Name>
+      <Address>015D0050</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>EP_Add</Name>
+      <Address>015D0040</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>AD_Add</Name>
+      <Address>015D0000</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>PinkDustAdd</Name>
+      <Address>00E80040</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>GreenDust</Name>
+      <Address>015D0010</Address>
+    </SymbolEntry>
+    <SymbolEntry>
+      <Name>GreenDustAmount</Name>
+      <Address>015D0020</Address>
+    </SymbolEntry>
+  </UserdefinedSymbols>
+  <Structures StructVersion="2">
+    <Structure Name="String" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="8" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000008" Description="Length" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="12" Vartype="Unicode String" Bytesize="128" OffsetHex="0000000C" Description="Value" DisplayMethod="Unsigned Integer"/>
+      </Elements>
+    </Structure>
+    <Structure Name="String" AutoFill="0" AutoCreate="1" DefaultHex="0" AutoDestroy="0" DoNotSaveLocal="0" RLECompression="1" AutoCreateStructsize="4096">
+      <Elements>
+        <Element Offset="8" Vartype="4 Bytes" Bytesize="4" OffsetHex="00000008" Description="Length" DisplayMethod="Unsigned Integer"/>
+        <Element Offset="12" Vartype="Unicode String" Bytesize="128" OffsetHex="0000000C" Description="Value" DisplayMethod="Unsigned Integer"/>
+      </Elements>
+    </Structure>
+  </Structures>
+</CheatTable>
