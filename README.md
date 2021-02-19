@@ -8,6 +8,7 @@ I take no credit for the original work done here - just wanted to play around wi
 NOTEWORTHY CHANGES:
 - 'block drops' set to +255 for less annoying (prestige) power leveling
 - Currencies are working but are not one-click activation (read the \<script\> in that record for details)
+  - Currency cheat must be re-activated (need to follow all steps) after game relaunch
 
 ### TROUBLESHOOTING:
 Can't find the correct memory block?
