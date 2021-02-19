@@ -12,3 +12,6 @@ NOTEWORTHY CHANGES:
 ### TROUBLESHOOTING:
 Can't find the correct memory block?
 - See [Issue #1](https://github.com/TheRedBull/CheatEngine_PickCrafter/issues/1)
+
+Need a visual walkthru to get currencies working?
+- See the video in the /Resources folder
