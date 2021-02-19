@@ -1,4 +1,4 @@
-# CheatEngine_PickCrafter
+# CheatEngine table for PickCrafter
 
 ***Updated for 5.9***
 
