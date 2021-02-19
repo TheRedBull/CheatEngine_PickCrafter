@@ -15,3 +15,7 @@ Can't find the correct memory block?
 
 Need a visual walkthru to get currencies working?
 - See the video in the [/Resources folder](https://github.com/TheRedBull/CheatEngine_PickCrafter/tree/master/Resources)
+
+
+### Final Thoughts:
+If you like this work, please star the repo!
